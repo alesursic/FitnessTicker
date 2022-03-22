@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BT</title>
+  <script src="js/socket.io/socket.io.js"></script>
+</head>
+<body>
+
+<input id="a"/>
+<input id="b"/>
+<button id="button">SET FILTERS</button>
+<div class="data"></div>
+</body>
+
+<script>
+  const socket = io.connect('http://localhost:8000')
+
+  socket.on('person', (msg) => {
+    document.querySelector('.data').innerHTML+= `<div>${msg.firstName} ${msg.lastName} ${msg.weight}</div>`;
+  });
+
+  document.querySelector("#button").addEventListener('click', () => {
+    const a = Number(document.querySelector("#a").value);
+    const b = Number(document.querySelector("#b").value);
+    socket.emit('save-filter-params', {fromWeight: a, toWeight: b});
+  });
+
+
+</script>
+</html>
